@@ -9,8 +9,8 @@ const nextConfig = withPayload(
     },
     transpilePackages: [
       "@payloadcms/plugin-seo",
-      "payload/components/forms",
-      "payload/components",
+      "src/payload/components/forms",
+      "src/payload/components",
     ],
     images: {
       domains: [
@@ -27,7 +27,7 @@ const nextConfig = withPayload(
     },
   },
   {
-    configPath: path.resolve(__dirname, "./payload/payload.config"),
+    configPath: path.resolve(__dirname, "./src/payload/payload.config"),
   }
 );
 
