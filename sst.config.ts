@@ -1,24 +1,48 @@
-import { SSTConfig } from "sst";
-import { NextjsSite } from "sst/constructs";
+// import { Token } from 'aws-cdk-lib/core'
+import { SSTConfig } from 'sst'
+import { Bucket, NextjsSite } from 'sst/constructs'
 
 export default {
   config(_input) {
     return {
-      name: "next-payload-demo",
-      region: "us-east-1",
-    };
+      name: 'next-payload-demo',
+      region: process.env.S3_REGION,
+    }
   },
   stacks(app) {
+    app.setDefaultFunctionProps({
+      nodejs: {
+        format: 'cjs',
+      },
+    })
+
     app.stack(function Site({ stack }) {
-      const site = new NextjsSite(stack, "site");
+      const bucket = new Bucket(stack, 'public', {
+        cors: true,
+        notifications: {},
+      })
+
+      const site = new NextjsSite(stack, 'site', {
+        bind: [bucket],
+        permissions: ['s3'],
+      })
 
       stack.addOutputs({
         SiteUrl: site.url,
-      });
+        Instructions: `
+Check your .env and ensure the following keys are set to the following values.
+These values are required for PayloadCMS to build, as these values are not resolved from tokens before it tries to build.
 
-      if (app.stage !== "prod") {
-        app.setDefaultRemovalPolicy("destroy");
+See https://docs.aws.amazon.com/cdk/v2/guide/tokens.html for more information.
+
+NEXT_PUBLIC_S3_ENDPOINT=${bucket.cdk.bucket.bucketWebsiteUrl}
+NEXT_PUBLIC_S3_BUCKET=${bucket.bucketName}
+        `,
+      })
+
+      if (app.stage !== 'prod') {
+        app.setDefaultRemovalPolicy('destroy')
       }
-    });
+    })
   },
-} satisfies SSTConfig;
+} satisfies SSTConfig
