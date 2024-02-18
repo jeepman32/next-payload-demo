@@ -5,9 +5,21 @@ import * as url from 'url'
 
 const currentDirectory = url.fileURLToPath(new URL('.', import.meta.url))
 
+const withBundleAnalyzer = bundleAnalyzer({
+  enabled: process.env.ANALYZE === 'true',
+  openAnalyzer: false,
+})
+
 /** @type {import('next').NextConfig} */
 const nextConfig = withPayload(
-  {
+  withBundleAnalyzer({
+    experimental: {
+      webpackBuildWorker: true,
+      serverMinification: false,
+    },
+    outputFileTracingIncludes: {
+      '/api/**': ['**/@swc/**'],
+    },
     eslint: {
       ignoreDuringBuilds: true,
     },
@@ -17,27 +29,19 @@ const nextConfig = withPayload(
       'src/payload/components',
     ],
     images: {
-      domains: [
-        'localhost',
-        'nextjs-vercel.payloadcms.com',
-        process.env.NEXT_PUBLIC_APP_URL,
-        `${process.env.NEXT_PUBLIC_S3_ENDPOINT}`.replace('https://', ''),
+      remotePatterns: [
+        {
+          protocol: 'https',
+          hostname: process.env.NEXT_PUBLIC_S3_ENDPOINT.replace('https://', ''),
+          pathname: `/${process.env.NEXT_PUBLIC_S3_BUCKET}/**`,
+        },
       ],
     },
-    webpack: {
-      resolve: {
-        alias: {},
-      },
-    },
-  },
+  }),
   {
     configPath: path.resolve(currentDirectory, './src/payload/payload.config.ts'),
     payloadPath: path.resolve(process.cwd(), './src/payload/payloadClient.ts'),
   },
 )
 
-const withBundleAnalyzer = bundleAnalyzer({
-  enabled: true,
-})
-
-export default process.env.ANALYZE === 'true' ? withBundleAnalyzer(nextConfig) : nextConfig
+export default nextConfig

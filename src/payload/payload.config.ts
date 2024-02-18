@@ -14,12 +14,12 @@ import { mongooseAdapter } from '@payloadcms/db-mongodb'
 import type { RichTextAdapter } from 'payload/types'
 
 const adapter = s3Adapter({
+  acl: 'public-read',
   config: {
     endpoint: process.env.NEXT_PUBLIC_S3_ENDPOINT,
-    region: process.env.S3_REGION,
     forcePathStyle: true,
   },
-  bucket: process.env.NEXT_PUBLIC_S3_BUCKET as string,
+  bucket: process.env.NEXT_PUBLIC_S3_BUCKET,
 })
 
 export function emptyEditor(): RichTextAdapter<any, {}, {}> {
@@ -42,11 +42,6 @@ export function emptyEditor(): RichTextAdapter<any, {}, {}> {
 }
 
 export default buildConfig({
-  // db: postgresAdapter({
-  //   pool: {
-  //     connectionString: process.env.POSTGRES_URI
-  //   }
-  // }),
   db: mongooseAdapter({
     url: process.env.MONGODB_URI as string,
   }),

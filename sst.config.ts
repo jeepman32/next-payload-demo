@@ -17,10 +17,7 @@ export default {
     })
 
     app.stack(function Site({ stack }) {
-      const bucket = new Bucket(stack, 'public', {
-        cors: true,
-        notifications: {},
-      })
+      const bucket = new Bucket(stack, 'public')
 
       const site = new NextjsSite(stack, 'site', {
         bind: [bucket],
@@ -35,7 +32,6 @@ These values are required for PayloadCMS to build, as these values are not resol
 
 See https://docs.aws.amazon.com/cdk/v2/guide/tokens.html for more information.
 
-NEXT_PUBLIC_S3_ENDPOINT=${bucket.cdk.bucket.bucketWebsiteUrl}
 NEXT_PUBLIC_S3_BUCKET=${bucket.bucketName}
         `,
       })
