@@ -1,6 +1,6 @@
-// import { Token } from 'aws-cdk-lib/core'
 import { SSTConfig } from 'sst'
 import { Bucket, NextjsSite } from 'sst/constructs'
+import * as lambda from 'aws-cdk-lib/aws-lambda'
 
 export default {
   config(_input) {
@@ -10,18 +10,21 @@ export default {
     }
   },
   stacks(app) {
-    app.setDefaultFunctionProps({
+    app.setDefaultFunctionProps((stack) => ({
       nodejs: {
         format: 'cjs',
       },
-    })
+    }))
 
-    app.stack(function Site({ stack }) {
-      const bucket = new Bucket(stack, 'public')
+    app.stack(({ stack }) => {
+      const bucket = new Bucket(stack, 'images', {
+        name: 'next-payload-demo-images-bucket',
+      })
 
       const site = new NextjsSite(stack, 'site', {
         bind: [bucket],
         permissions: ['s3'],
+        buildCommand: `open-next build --minify --buildCommand="next build"`,
       })
 
       stack.addOutputs({

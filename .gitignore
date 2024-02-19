@@ -42,6 +42,7 @@ build/Release
 
 # Dependency directories
 node_modules/
+!**/layers/**/node_modules
 jspm_packages/
 
 # Snowpack dependency directory (https://snowpack.dev/)
@@ -170,6 +171,7 @@ dist
 .vercel
 
 build
+!**/layers/**/node_modules/**/build
 public/admin
 
 # sst

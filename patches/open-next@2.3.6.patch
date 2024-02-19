@@ -1,0 +1,46 @@
+diff --git a/dist/build.js b/dist/build.js
+index 76611a432c211176249797c34e1bb08fa211029a..a099efe5a64a01fa9682aa82de5feb7d78120b8d 100644
+--- a/dist/build.js
++++ b/dist/build.js
+@@ -519,6 +519,26 @@ async function createServerBundle(monorepoRoot, streaming = false) {
+     injectMiddlewareGeolocation(outputPath, packagePath);
+     removeCachedPages(outputPath, packagePath);
+     addCacheHandler(outputPath, options.dangerous);
++
++    console.warn("Forcefully removing known unused modules...")
++    // if (options.minify) {
++    removeNodeModule(path.join(outputPath, "node_modules"), [
++        "@esbuild",
++        "prisma/libquery_engine-darwin-arm64.dylib.node",
++        "@swc/core-darwin-arm64",
++        "@swc/core",
++        "better-sqlite3",
++        "esbuild",
++        "webpack",
++        "uglify-js",
++        // "react", // TODO: remove react/react-dom when nextjs updates its precompile versions
++        // "react-dom",
++        "@webassemblyjs",
++        "uglify-js",
++        "sass",
++        "caniuse-lite",
++    ]);
++    // }
+ }
+ function addMonorepoEntrypoint(outputPath, packagePath) {
+     // Note: in the monorepo case, the handler file is output to
+@@ -736,3 +756,14 @@ function compareSemver(v1, v2) {
+         return minor1 - minor2;
+     return patch1 - patch2;
+ }
++
++function removeNodeModule(nodeModulesPath, modules) {
++    console.log("removing: ", modules);
++    for (const module of modules) {
++      fs.rmSync(path.join(nodeModulesPath, module), {
++        force: true,
++        recursive: true,
++      });
++    }
++  }
++

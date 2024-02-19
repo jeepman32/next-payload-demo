@@ -15,10 +15,6 @@ const nextConfig = withPayload(
   withBundleAnalyzer({
     experimental: {
       webpackBuildWorker: true,
-      serverMinification: false,
-    },
-    outputFileTracingIncludes: {
-      '/api/**': ['**/@swc/**'],
     },
     eslint: {
       ignoreDuringBuilds: true,
@@ -36,6 +32,11 @@ const nextConfig = withPayload(
           pathname: `/${process.env.NEXT_PUBLIC_S3_BUCKET}/**`,
         },
       ],
+    },
+    webpack: {
+      externals: {
+        sharp: 'commonjs sharp',
+      },
     },
   }),
   {
