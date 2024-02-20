@@ -7,25 +7,25 @@ index 76611a432c211176249797c34e1bb08fa211029a..a099efe5a64a01fa9682aa82de5feb7d
      removeCachedPages(outputPath, packagePath);
      addCacheHandler(outputPath, options.dangerous);
 +
-+    console.warn("Forcefully removing known unused modules...")
-+    // if (options.minify) {
-+    removeNodeModule(path.join(outputPath, "node_modules"), [
-+        "@esbuild",
-+        "prisma/libquery_engine-darwin-arm64.dylib.node",
-+        "@swc/core-darwin-arm64",
-+        "@swc/core",
-+        "better-sqlite3",
-+        "esbuild",
-+        "webpack",
-+        "uglify-js",
-+        // "react", // TODO: remove react/react-dom when nextjs updates its precompile versions
-+        // "react-dom",
-+        "@webassemblyjs",
-+        "uglify-js",
-+        "sass",
-+        "caniuse-lite",
-+    ]);
-+    // }
++
++    if (options.minify) {
++        removeNodeModule(path.join(outputPath, "node_modules"), [
++            "@esbuild",
++            "prisma/libquery_engine-darwin-arm64.dylib.node",
++            "@swc/core-darwin-arm64",
++            "@swc/core",
++            "better-sqlite3",
++            "esbuild",
++            "webpack",
++            "uglify-js",
++            // "react", // TODO: remove react/react-dom when nextjs updates its precompile versions
++            // "react-dom",
++            "@webassemblyjs",
++            "uglify-js",
++            "sass",
++            "caniuse-lite",
++        ]);
++    }
  }
  function addMonorepoEntrypoint(outputPath, packagePath) {
      // Note: in the monorepo case, the handler file is output to
@@ -35,12 +35,12 @@ index 76611a432c211176249797c34e1bb08fa211029a..a099efe5a64a01fa9682aa82de5feb7d
  }
 +
 +function removeNodeModule(nodeModulesPath, modules) {
-+    console.log("removing: ", modules);
++    console.log("Removing: ", modules);
 +    for (const module of modules) {
-+      fs.rmSync(path.join(nodeModulesPath, module), {
-+        force: true,
-+        recursive: true,
-+      });
++        fs.rmSync(path.join(nodeModulesPath, module), {
++            force: true,
++            recursive: true,
++        });
 +    }
 +  }
 +

@@ -33,11 +33,6 @@ const nextConfig = withPayload(
         },
       ],
     },
-    webpack: {
-      externals: {
-        sharp: 'commonjs sharp',
-      },
-    },
   }),
   {
     configPath: path.resolve(currentDirectory, './src/payload/payload.config.ts'),

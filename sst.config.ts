@@ -17,14 +17,13 @@ export default {
     }))
 
     app.stack(({ stack }) => {
-      const bucket = new Bucket(stack, 'images', {
-        name: 'next-payload-demo-images-bucket',
-      })
+      const bucket = new Bucket(stack, 'images')
 
       const site = new NextjsSite(stack, 'site', {
         bind: [bucket],
         permissions: ['s3'],
         buildCommand: `open-next build --minify --buildCommand="next build"`,
+        logging: "combined",
       })
 
       stack.addOutputs({

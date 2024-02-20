@@ -7,21 +7,6 @@
   "engines": {
     "pnpm": "^8.15.0"
   },
-  "yarn": {
-    "supportedArchitectures": {
-      "os": [
-        "linux"
-      ],
-      "cpu": [
-        "x64",
-        "arm64"
-      ]
-    },
-    "patchedDependencies": {
-      "@payloadcms/next-payload@0.1.11": "patches/@payloadcms__next-payload@0.1.11.patch",
-      "open-next@2.3.6": "patches/open-next@2.3.6.patch"
-    }
-  },
   "pnpm": {
     "supportedArchitectures": {
       "os": [
@@ -30,10 +15,12 @@
       "cpu": [
         "x64",
         "arm64"
+      ],
+      "libc": [
+        "glibc"
       ]
     },
     "patchedDependencies": {
-      "@payloadcms/next-payload@0.1.11": "patches/@payloadcms__next-payload@0.1.11.patch",
       "open-next@2.3.6": "patches/open-next@2.3.6.patch"
     }
   },
@@ -46,6 +33,7 @@
     "remove": "npm run sst remove",
     "console": "npm run sst console",
     "build:sst": "npm run sst build",
+    "prebuild": "pnpm i --force --config.arch=arm64 --config.platform=linux --config.target=18 --config.libc=glibc --config.sharp_libvips_binary_host=https://github.com/lovell/sharp-libvips/releases/download/",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -73,7 +61,7 @@
     "payload-admin-bar": "^1.0.5",
     "sass": "^1.58.2",
     "sass-loader": "^13.2.0",
-    "sharp": "0.32.6",
+    "sharp": "^0.32.6",
     "slate": "^0.102.0"
   },
   "devDependencies": {
