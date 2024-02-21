@@ -14,6 +14,7 @@ const withBundleAnalyzer = bundleAnalyzer({
 const nextConfig = withPayload(
   withBundleAnalyzer({
     experimental: {
+      optimizeServerReact: false,
       webpackBuildWorker: true,
     },
     eslint: {

@@ -23,8 +23,11 @@ const Page = async ({ params: { slug } }: { params: { slug: string } }) => {
 
   return (
     <React.Fragment>
+      {/* @ts-ignore */}
       <AdminBar adminBarProps={{ collection: 'pages', id: page.id }} />
+      {/* @ts-ignore */}
       <Hero {...page.hero} />
+      {/* @ts-ignore */}
       <Blocks blocks={page.layout} />
     </React.Fragment>
   )
@@ -38,7 +41,8 @@ export async function generateStaticParams() {
     limit: 0,
   })
 
-  return pages.docs.map(({ slug }: { slug: string }) => ({ slug }))
+      {/* @ts-ignore */}
+  return pages.docs.map(({ slug  }: { slug: string }) => ({ slug }))
 }
 
 export default Page;

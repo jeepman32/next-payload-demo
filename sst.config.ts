@@ -1,6 +1,5 @@
 import { SSTConfig } from 'sst'
 import { Bucket, NextjsSite } from 'sst/constructs'
-import * as lambda from 'aws-cdk-lib/aws-lambda'
 
 export default {
   config(_input) {
@@ -23,7 +22,10 @@ export default {
         bind: [bucket],
         permissions: ['s3'],
         buildCommand: `open-next build --minify --buildCommand="next build"`,
-        logging: "combined",
+        logging: 'combined',
+        // dev: { deploy: false },
+        timeout: '60 seconds',
+        runtime: 'nodejs20.x',
       })
 
       stack.addOutputs({
