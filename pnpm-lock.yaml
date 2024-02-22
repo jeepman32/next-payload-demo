@@ -16,6 +16,9 @@ dependencies:
   '@aws-sdk/lib-storage':
     specifier: ^3.428.0
     version: 3.515.0(@aws-sdk/client-s3@3.515.0)
+  '@codegenie/serverless-express':
+    specifier: ^4.13.0
+    version: 4.13.0
   '@dotenvx/dotenvx':
     specifier: ^0.15.4
     version: 0.15.4
@@ -1771,6 +1774,11 @@ packages:
   /@cdklabs/tskb@0.0.3:
     resolution: {integrity: sha512-JR+MuD4awAXvutu7HArephXfZm09GPTaSAQUqNcJB5+ZENRm4kV+L6vJL6Tn1xHjCcHksO+HAqj3gYtm5K94vA==}
     dev: true
+
+  /@codegenie/serverless-express@4.13.0:
+    resolution: {integrity: sha512-xjTotGExm+2j45T6XTvDuTJO1105jKLf152j9nXXeJboYH3dwd8Ted6guv+jDFNouf0uKOO7AhGRQdCTpLVIiw==}
+    engines: {node: '>=12'}
+    dev: false
 
   /@colors/colors@1.6.0:
     resolution: {integrity: sha512-Ir+AOibqzrIsL6ajt3Rz3LskB7OiMVHqltZmspbW/TJuTVuyOMirVqAkjfY6JISiLHgyNqicAC8AyHHGzNd/dA==}

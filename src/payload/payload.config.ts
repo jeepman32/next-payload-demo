@@ -44,6 +44,17 @@ export function emptyEditor(): RichTextAdapter<any, {}, {}> {
 export default buildConfig({
   db: mongooseAdapter({
     url: process.env.MONGODB_URI as string,
+    connectOptions: {
+      minPoolSize: 1,
+      maxPoolSize: 1,
+      ssl: true,
+      family: 4,
+      loggerLevel: 'debug',
+      serverSelectionTimeoutMS: 5000,
+      heartbeatFrequencyMS: 2000,
+      keepAlive: true,
+      keepAliveInitialDelay: 60000,
+    },
   }),
   editor: emptyEditor(),
   admin: {
@@ -68,7 +79,7 @@ export default buildConfig({
     outputFile: path.resolve(__dirname, '../payload-types.ts'),
   },
   graphQL: {
-    schemaOutputFile: path.resolve(__dirname, 'generated-schema.graphql'),
+    disable: true,
   },
   plugins: [
     seo({
@@ -83,4 +94,5 @@ export default buildConfig({
       },
     }),
   ],
+  telemetry: false,
 })

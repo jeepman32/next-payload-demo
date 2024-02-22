@@ -17,6 +17,7 @@ const nextConfig = withPayload(
       optimizeServerReact: false,
       webpackBuildWorker: true,
     },
+    staticPageGenerationTimeout: 5 * 60,
     eslint: {
       ignoreDuringBuilds: true,
     },
@@ -33,6 +34,11 @@ const nextConfig = withPayload(
           pathname: `/${process.env.NEXT_PUBLIC_S3_BUCKET}/**`,
         },
       ],
+    },
+    webpack: {
+      optimization: {
+        minimize: false,
+      },
     },
   }),
   {

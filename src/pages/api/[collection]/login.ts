@@ -11,8 +11,11 @@ export default async (request, response) => {
   console.log('TRUGGLE')
   // await new Promise<void>((resolve) => client.db.connection.once('open', () => resolve()))
   // console.log('ZUGGLE')
+  const result = await handler(request, response)
 
-  return handler(request, response)
+  console.log('SHIGGLE', result)
+
+  return result
 }
 
 export const config = {

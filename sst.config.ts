@@ -1,5 +1,5 @@
 import { SSTConfig } from 'sst'
-import { Bucket, NextjsSite } from 'sst/constructs'
+import { Api, Bucket, NextjsSite } from 'sst/constructs'
 
 export default {
   config(_input) {
@@ -23,9 +23,9 @@ export default {
         permissions: ['s3'],
         buildCommand: `open-next build --minify --buildCommand="next build"`,
         logging: 'combined',
-        // dev: { deploy: false },
         timeout: '60 seconds',
         runtime: 'nodejs20.x',
+        warm: 1,
       })
 
       stack.addOutputs({
